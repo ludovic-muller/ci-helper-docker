@@ -1,0 +1,6 @@
+#!/bin/sh
+
+# verbose mode for `crane`
+
+echo "+ crane $*"
+crane "$@"
