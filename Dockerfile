@@ -34,13 +34,8 @@ ENV EDITOR="vim"
 # install some tools
 COPY --from=kaniko-bin /kaniko/executor /kaniko/executor
 RUN ln -s /kaniko/executor /usr/local/bin/executor
-RUN apk add --no-cache jq vim bash less git rsync curl wget unzip
+RUN apk add --no-cache jq vim bash less git rsync curl wget unzip aws-cli
 RUN wget -qO - https://github.com/google/go-containerregistry/releases/download/v${GO_CONTAINERREGISTRY_VERSION}/go-containerregistry_Linux_x86_64.tar.gz | tar xzvC /usr/local/bin crane
-
-WORKDIR /aws
-RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && unzip awscliv2.zip && ./aws/install && rm -rf aws awscliv2.zip
-WORKDIR /root
-RUN rm -rf /aws
 
 # create some directories
 RUN mkdir -p "${HOME}/.docker"
@@ -50,3 +45,5 @@ COPY tools/ecrane /usr/local/bin/ecrane
 
 # make sure they are executable
 RUN chmod +x /usr/local/bin/ecrane
+
+WORKDIR /root
